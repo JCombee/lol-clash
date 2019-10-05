@@ -5,6 +5,16 @@ class Summoner extends React.Component {
     state = {
         name: ""
     };
+
+    constructor(props) {
+        super(props);
+        this.focus = this.focus.bind(this);
+    }
+
+    focus() {
+        this.input.focus();
+    }
+
     render() {
         return (
             <div className="w-1/5 float-left p-2">
@@ -12,12 +22,18 @@ class Summoner extends React.Component {
                     <input
                         className="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal"
                         type="email"
-                        placeholder="jane@example.com"
+                        ref={(ref) => this.input = ref}
+                        placeholder="Summoner Name"
                         value={this.state.name}
                         onChange={(event) => {
                             this.setState({
                                 name: event.target.value
                             });
+                        }}
+                        onKeyPress={(e) => {
+                            if (e.key === "Enter") {
+                                this.props.onReturn();
+                            }
                         }}
                     />
                 </div>
@@ -85,7 +101,7 @@ class Summoner extends React.Component {
                     Poro Science
                 </Link>
                 <Link
-                    color="orange"
+                    color="red"
                     active={this.state.name !== ''}
                     href={"http://quickfind.kassad.in/profile/euw/" + this.state.name}
                 >
